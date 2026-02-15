@@ -1,7 +1,7 @@
 // importerer pakker.
 const express = require("express");
 const bodyParser = require("body-parser");
-
+const { exec } = require("child_process");
 const app = express();
 
 const port = 3000;
@@ -51,6 +51,14 @@ app.get("/about", (req, res) => {
 app.get("/quote", (req, res) => {
 	res.render("quote");
 });
+
+app.get("/studytips", (req, res) => {
+    exec("python python/studytips.py", (error, stdout, stderr) => {
+
+        res.render("studyTips", { word: stdout.trim() });
+    });
+});
+
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
 });
